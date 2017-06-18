@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My Widgets</string>
+    <array name="planets_array">
+        <item>test1</item>
+        <item>test2</item>
+        <item>test3</item>
+    </array>
+</resources>

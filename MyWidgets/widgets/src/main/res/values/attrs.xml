@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwipeMenuLayout">
+        <attr name="swipe_layout" format="reference" />
+        <attr name="swipe_direction" format="enum">
+            <enum name="DIRECTION_LEFT" value="1" />
+            <enum name="DIRECTION_RIGHT" value="2" />
+            <enum name="DIRECTION_UP" value="3" />
+            <enum name="DIRECTION_BOTTOM" value="4" />
+        </attr>
+    </declare-styleable>
+</resources>
