@@ -16,6 +16,7 @@ import java.util.LinkedList;
 
 public class CalendarPager extends ViewPager {
 
+    private int currentSelectedPage;
     private HashMap<Integer, CalendarView> views = new HashMap<>();
     private CalendarAdapter calendarAdapter;
     private CalendarView.OnItemClickListener onItemClickListener;
@@ -41,7 +42,9 @@ public class CalendarPager extends ViewPager {
             }
 
             view.setAdapter(calendarAdapter);
-            view.setData(CalendarMonth.getCurrentMonth().addMonth(position - Integer.MAX_VALUE / 2).getMonthDays(true), position == Integer.MAX_VALUE / 2);
+            CalendarMonth month = CalendarMonth.getCurrentMonth().addMonth(position - Integer.MAX_VALUE / 2);
+            view.setData(month, month.getMonthDays(true), position == Integer.MAX_VALUE / 2);
+            view.setOnItemClickListener(onItemClickListener);
             container.addView(view);
             views.put(position, view);
 
@@ -81,6 +84,10 @@ public class CalendarPager extends ViewPager {
                 }
             }
         });
+    }
+
+    public void setOnCalendarClickListener(CalendarView.OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     private void initData() {

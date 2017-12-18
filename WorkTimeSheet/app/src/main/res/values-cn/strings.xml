@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">工时表单</string>
+    <string name="clockin">打卡</string>
+</resources>

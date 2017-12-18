@@ -21,12 +21,12 @@
             android:scaleType="fitCenter" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/date_title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="2016/10/10"
+            android:text="date"
             android:textColor="#ffffff" />
 
         <View

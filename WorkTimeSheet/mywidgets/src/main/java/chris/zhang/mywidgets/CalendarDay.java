@@ -1,7 +1,10 @@
 package chris.zhang.mywidgets;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -9,23 +12,51 @@ import java.util.Date;
  * Created by Administrator on 2017/12/16.
  */
 
-public class CalendarDay {
+public class CalendarDay implements Parcelable {
     private int year;
     private int month;
     private int day;
     private int weekday;
 
-    //-1,0,1
-    private int monthFlag;
-
     //显示
     private String chinaMonth;
     private String chinaDay;
+
+    public CalendarDay() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+
+        this.year = c.get(Calendar.YEAR);
+        this.month = c.get(Calendar.MONTH);
+        this.day = c.get(Calendar.DATE);
+    }
 
     public CalendarDay(int year, int month, int day) {
         this.year = year;
         this.month = convertMinusMonth(month);
         this.day = convertMinusDay(day);
+    }
+
+    public static Parcelable.Creator<CalendarDay> CREATOR = new Parcelable.Creator<CalendarDay>() {
+        @Override
+        public CalendarDay createFromParcel(Parcel source) {
+            return null;
+        }
+
+        @Override
+        public CalendarDay[] newArray(int size) {
+            return new CalendarDay[0];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 
     //获取一月的第一天是星期几
@@ -79,10 +110,28 @@ public class CalendarDay {
     }
 
     public boolean isToday() {
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
+        Calendar today = Calendar.getInstance();
+        today.setTime(new Date());
 
-        return this.year == c.get(Calendar.YEAR) && this.month == c.get(Calendar.MONTH) && this.day == c.get(Calendar.DATE);
+        return this.year == today.get(Calendar.YEAR) && this.month == today.get(Calendar.MONTH) && this.day == today.get(Calendar.DATE);
+    }
+
+    public boolean isFeature() {
+        Calendar today = Calendar.getInstance();
+        today.setTime(new Date());
+        today.set(Calendar.HOUR, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+
+        Calendar c = Calendar.getInstance();
+        c.set(this.year, this.month, this.day);
+
+        return today.compareTo(c) < 0;
+    }
+
+    public boolean isInThisMonth(CalendarMonth month) {
+        return this.year == month.getYear() && this.month == month.getMonth();
     }
 
     public String getNameOfWeekday(Context context) {
@@ -113,10 +162,16 @@ public class CalendarDay {
         return s;
     }
 
+    public CalendarMonth getCalenderMonth() {
+        return new CalendarMonth(this.year, this.month);
+    }
+
     @Override
     public String toString() {
-        String s = year + "/" + (month + 1) + "/" + day;
-        return s;
+        Calendar c = Calendar.getInstance();
+        c.set(this.year, this.month, this.day);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        return sdf.format(c);
     }
 
     private int convertMinusMonth(int month) {

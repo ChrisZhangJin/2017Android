@@ -8,5 +8,5 @@ import android.view.ViewGroup;
  */
 
 public interface CalendarAdapter {
-    View getView(View convertView, ViewGroup parentView, CalendarDay cday);
+    View getView(View convertView, ViewGroup parentView, CalendarDay cDay, CalendarMonth cMonth);
 }

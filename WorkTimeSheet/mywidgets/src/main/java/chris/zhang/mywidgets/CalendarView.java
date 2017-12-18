@@ -21,7 +21,7 @@ public class CalendarView extends ViewGroup {
     private CalendarAdapter adapter;
     private int selectPosition;
     private boolean isToday;
-    private OnItemClickListener listener;
+    private OnItemClickListener onItemClickListener;
     private List<CalendarDay> data;
 
     public interface OnItemClickListener {
@@ -38,11 +38,11 @@ public class CalendarView extends ViewGroup {
         this.adapter = adapter;
     }
 
-    public void setData(@NonNull List<CalendarDay> data, boolean isToday) {
+    public void setData(@NonNull CalendarMonth month, @NonNull List<CalendarDay> data, boolean isToday) {
         this.data = data;
         this.isToday = isToday;
 
-        initItems(data);
+        initItems(month, data);
         requestLayout();
     }
 
@@ -57,8 +57,8 @@ public class CalendarView extends ViewGroup {
                 }
                 selectPosition = position;
 
-                if (listener != null) {
-                    listener.onItemClick(view, position, cday);
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(view, position, cday);
                 }
             }
         });
@@ -105,6 +105,10 @@ public class CalendarView extends ViewGroup {
         Log.i(TAG, "onLayout");
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     private void layoutChild(View view, int position, int l, int t, int r, int b) {
         // 通过index计算应该排在哪一个位置
         int colIndex = position % COLUMN_COUNT;
@@ -120,7 +124,7 @@ public class CalendarView extends ViewGroup {
         view.layout(l, t, r, b);
     }
 
-    private void initItems(List<CalendarDay> list) {
+    private void initItems(CalendarMonth month, List<CalendarDay> list) {
 
         selectPosition = -1;
         if (adapter == null) {
@@ -130,7 +134,7 @@ public class CalendarView extends ViewGroup {
         for (int i = 0; i < list.size(); i++) {
             CalendarDay calendarDay = list.get(i);
             View view = getChildAt(i);
-            View childView = adapter.getView(view, this, calendarDay);
+            View childView = adapter.getView(view, this, calendarDay, month);
 
             if (view == null || view != childView) {
                 addViewInLayout(childView, i, childView.getLayoutParams(), true);
