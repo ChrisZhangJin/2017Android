@@ -31,7 +31,7 @@ public class CalendarView extends ViewGroup {
     public CalendarView(Context context, @NonNull CalendarMonth month) {
         super(context);
         calendarMonth = month;
-        this.row = (month.getMonthDays(true).size()-1) / COLUMN_COUNT + 1;
+        this.row = (month.getCalendarMonthDays().size()-1) / COLUMN_COUNT + 1;
     }
 
     public void setAdapter(@NonNull CalendarAdapter adapter) {

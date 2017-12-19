@@ -42,8 +42,8 @@ public class CalendarPager extends ViewPager {
             }
 
             view.setAdapter(calendarAdapter);
-            CalendarMonth month = CalendarMonth.getCurrentMonth().addMonth(position - Integer.MAX_VALUE / 2);
-            view.setData(month, month.getMonthDays(true), position == Integer.MAX_VALUE / 2);
+            CalendarMonth month = CalendarMonth.getCurrentMonth().addMonth(position - Integer.MAX_VALUE / 2); // setCurrentItem was set when init
+            view.setData(month, month.getCalendarMonthDays(), position == Integer.MAX_VALUE / 2);
             view.setOnItemClickListener(onItemClickListener);
             container.addView(view);
             views.put(position, view);
@@ -78,10 +78,10 @@ public class CalendarPager extends ViewPager {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
 
-                if (onItemClickListener != null) {
-                    CalendarView view = views.get(position);
-                    onItemClickListener.onItemClick(view, position, view.getSelected());
-                }
+//                if (onItemClickListener != null) {
+//                    CalendarView view = views.get(position);
+//                    onItemClickListener.onItemClick(view, position, view.getSelected());
+//                }
             }
         });
     }

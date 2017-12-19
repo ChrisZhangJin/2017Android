@@ -1,4 +1,4 @@
-package chris.zhang.worktimesheet;
+package chris.zhang.worktime;
 
 import org.junit.Test;
 

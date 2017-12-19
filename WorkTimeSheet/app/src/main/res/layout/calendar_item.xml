@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
+    android:background="@drawable/bg_calendar_item"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -9,8 +10,12 @@
         android:id="@android:id/text1"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:gravity="center"
-        android:background="@drawable/bg_calendar_item"
-        />
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@android:id/text2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:gravity="center" />
 
 </LinearLayout>

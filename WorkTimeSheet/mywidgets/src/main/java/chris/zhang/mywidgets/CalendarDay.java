@@ -19,8 +19,8 @@ public class CalendarDay implements Parcelable {
     private int weekday;
 
     //显示
-    private String chinaMonth;
-    private String chinaDay;
+//    private String chinaMonth;
+//    private String chinaDay;
 
     public CalendarDay() {
         Calendar c = Calendar.getInstance();
@@ -37,15 +37,22 @@ public class CalendarDay implements Parcelable {
         this.day = convertMinusDay(day);
     }
 
+    public CalendarDay(Parcel source) {
+        this.year = source.readInt();
+        this.month = source.readInt();
+        this.day = source.readInt();
+        this.weekday = source.readInt();
+    }
+
     public static Parcelable.Creator<CalendarDay> CREATOR = new Parcelable.Creator<CalendarDay>() {
         @Override
         public CalendarDay createFromParcel(Parcel source) {
-            return null;
+            return new CalendarDay(source);
         }
 
         @Override
         public CalendarDay[] newArray(int size) {
-            return new CalendarDay[0];
+            return new CalendarDay[size];
         }
     };
 
@@ -56,7 +63,10 @@ public class CalendarDay implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeInt(this.year);
+        dest.writeInt(this.month);
+        dest.writeInt(this.day);
+        dest.writeInt(this.weekday);
     }
 
     //获取一月的第一天是星期几
@@ -171,7 +181,7 @@ public class CalendarDay implements Parcelable {
         Calendar c = Calendar.getInstance();
         c.set(this.year, this.month, this.day);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        return sdf.format(c);
+        return sdf.format(c.getTime());
     }
 
     private int convertMinusMonth(int month) {

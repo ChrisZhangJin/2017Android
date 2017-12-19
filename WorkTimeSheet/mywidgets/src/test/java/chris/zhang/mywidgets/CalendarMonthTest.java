@@ -34,7 +34,7 @@ public class CalendarMonthTest {
     public void testGetMonthDays() {
         CalendarMonth testObj = new CalendarMonth(2017, 11);
 
-        List<CalendarDay> list = testObj.getMonthDays(false);
+        List<CalendarDay> list = testObj.getMonthDays();
         assertEquals(31, list.size());
 
         assertEquals("2017/12/1", list.get(0).toString());
@@ -45,7 +45,7 @@ public class CalendarMonthTest {
     public void testGetMonthDaysByWholeWeeks() {
         CalendarMonth testObj = new CalendarMonth(2017, 11);
 
-        List<CalendarDay> list = testObj.getMonthDays(true);
+        List<CalendarDay> list = testObj.getCalendarMonthDays();
         assertEquals(list.size(), 36);
 
         assertEquals("2017/11/26", list.get(0).toString());

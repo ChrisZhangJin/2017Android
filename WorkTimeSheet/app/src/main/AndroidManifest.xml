@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="chris.zhang.worktimesheet">
+    package="chris.zhang.worktime">
 
     <application
         android:allowBackup="true"
@@ -9,24 +9,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat">
-        <activity android:name=".MainActivity">
+        <activity android:name="chris.zhang.worktime.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WorkTimeDetailsActivity" />
+        <activity android:name="chris.zhang.worktime.WorkTimeDetailsActivity" />
         <activity
-            android:name=".ClockInActivity"
+            android:name="chris.zhang.worktime.ClockInActivity"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="chris.zhang.intent.action.CLOCKIN" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <provider
-            android:name=".db.WorkTimeProvider"
+            android:name="chris.zhang.worktime.db.WorkTimeProvider"
             android:authorities="chris.zhang.worktimeprovider" />
     </application>
 

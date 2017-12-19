@@ -1,5 +1,8 @@
 package chris.zhang.mywidgets;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,18 +13,40 @@ import java.util.List;
  * Created by Administrator on 2017/12/16.
  */
 
-public class CalendarMonth {
+public class CalendarMonth implements Parcelable {
 
     /**
      * 年月对应的一个月的所有日子（缓存）
      * HashMap 中key:年月字符串 value:一个月的所有日子
      */
-    private static HashMap<String, CalendarMonth> months = new HashMap<>();
+    protected static HashMap<String, CalendarMonth> months = new HashMap<>();
 
-    private int year;
-    private int month;
-    private List<CalendarDay> calendarMonthDays = new ArrayList<>();
-    private List<CalendarDay> monthDays = new ArrayList<>();
+    protected int year;
+    protected int month;
+    protected List<CalendarDay> calendarMonthDays = new ArrayList<>();
+    protected List<CalendarDay> monthDays = new ArrayList<>();
+
+    public static Parcelable.Creator<CalendarMonth> CREATOR = new Parcelable.Creator<CalendarMonth>() {
+        @Override
+        public CalendarMonth createFromParcel(Parcel source) {
+            return new CalendarMonth(source);
+        }
+
+        @Override
+        public CalendarMonth[] newArray(int size) {
+            return new CalendarMonth[size];
+        }
+    };
+
+    public CalendarMonth() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+
+        this.year = c.get(Calendar.YEAR);
+        this.month = c.get(Calendar.MONTH);
+
+        initMonthDays();
+    }
 
     public CalendarMonth(int year, int month) {
         this.year = year;
@@ -40,11 +65,28 @@ public class CalendarMonth {
         initMonthDays();
     }
 
+    public CalendarMonth(Parcel source) {
+        this.year = source.readInt();
+        this.month = source.readInt();
+        initMonthDays();
+    }
+
     public CalendarMonth(CalendarMonth copy) {
         this.year = copy.year;
         this.month = copy.month;
         this.calendarMonthDays = copy.calendarMonthDays;
         this.monthDays = copy.monthDays;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.year);
+        dest.writeInt(this.month);
     }
 
     public static CalendarMonth getCurrentMonth() {
@@ -95,23 +137,22 @@ public class CalendarMonth {
     /**
      * 获取一个月中的所有日子
      *
-     * @param wholeWeek 是否按整周计算（日历模式）
      * @return 所有列表
      */
-    public List<CalendarDay> getMonthDays(boolean wholeWeek) {
-        return wholeWeek ? calendarMonthDays : monthDays;
+    public List<CalendarDay> getCalendarMonthDays() {
+        return calendarMonthDays;
     }
 
     public List<CalendarDay> getMonthDays() {
-        return getMonthDays(false);
+        return monthDays;
     }
 
     @Override
     public String toString() {
-        return this.year + "" + (this.month+1);
+        return this.year + "" + (this.month + 1);
     }
 
-    private void initMonthDays() {
+    protected void initMonthDays() {
         final String key = toString();
         if (months.containsKey(key)) {
             CalendarMonth calendarMonth = months.get(key);
@@ -127,7 +168,7 @@ public class CalendarMonth {
 
         final int days = CalendarDay.getDaysByWeekday(getWeekdayOfFirstDay());
         for (int i = days; i > 0; i--) {
-            CalendarDay lastMonthDay = new CalendarDay(year, month-1, -i);
+            CalendarDay lastMonthDay = new CalendarDay(year, month - 1, -i);
             calendarMonthDays.add(lastMonthDay);
         }
 
